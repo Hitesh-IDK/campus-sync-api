@@ -13,7 +13,7 @@ const DepartmentRouter = express.Router();
 export default DepartmentRouter;
 
 DepartmentRouter.get('/', ActiveEndpointHandler).all('/', MethodNotAllowedHandler);
-DepartmentRouter.use(AuthorizedHeaderVerification);
+// DepartmentRouter.use(AuthorizedHeaderVerification);
 
 DepartmentRouter.get('/list', listDepartmentHandler).all('/list', MethodNotAllowedHandler);
 

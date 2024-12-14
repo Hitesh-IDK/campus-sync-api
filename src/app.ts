@@ -15,6 +15,7 @@ import InstructorRouter from './routers/instructor';
 import CourseRouter from './routers/course';
 import ClassRouter from './routers/class';
 import ImageRouter from './routers/image';
+import InstitutionRouter from './routers/institution';
 
 const app = express();
 app.options('*', cors());
@@ -51,6 +52,7 @@ app.use(`${baseURL}/instructor`, InstructorRouter);
 app.use(`${baseURL}/course`, CourseRouter);
 app.use(`${baseURL}/class`, ClassRouter);
 app.use(`${baseURL}/image`, ImageRouter);
+app.use(`${baseURL}/institution`, InstitutionRouter);
 
 app.use(AuthorizedHeaderVerification);
 

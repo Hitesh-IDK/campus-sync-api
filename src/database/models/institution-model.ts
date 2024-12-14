@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { mongoClient } from '../connection';
+import { InstitutionDbBody, SemiAbstractedInstitution } from '../../../types/institution';
+import User from './user-modal';
 
 export default class Institution {
   private _id?: ObjectId;
@@ -51,6 +53,22 @@ export default class Institution {
 
     this._id = result.insertedId;
     return result.insertedId;
+  }
+
+  static async getAll(): Promise<SemiAbstractedInstitution[]> {
+    const result = await mongoClient.db().collection<InstitutionDbBody>('institutions').find().toArray();
+    return await Promise.all(
+      result.map(async (item) => ({
+        id: item._id.toString(),
+        name: item.name,
+        address: item.address,
+        city: item.city,
+        state: item.state,
+        image: item.image,
+        handler: (await User.getById(item.handler.toString())).toAbstractedUser(),
+        departments: item.departments,
+      }))
+    );
   }
 
   static validateName(name: string): string | undefined {

@@ -7,7 +7,7 @@ const InstructorRouter = express.Router();
 export default InstructorRouter;
 
 InstructorRouter.get('/', ActiveEndpointHandler).all('/', MethodNotAllowedHandler);
-InstructorRouter.use(AuthorizedHeaderVerification);
+// InstructorRouter.use(AuthorizedHeaderVerification);
 
 InstructorRouter.post('/bind-department', BindDepartmentBodyValidator, bindDepartmentHandler).all(
   '/bind-department',

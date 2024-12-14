@@ -141,3 +141,4 @@ dist
 .public/images/canteen/*
 .public/images/users/*
 .public/images/vendor/*
+.public/images/temp/*

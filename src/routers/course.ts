@@ -7,6 +7,6 @@ const CourseRouter = express.Router();
 export default CourseRouter;
 
 CourseRouter.get('/', ActiveEndpointHandler).all('/', MethodNotAllowedHandler);
-CourseRouter.use(AuthorizedHeaderVerification);
+// CourseRouter.use(AuthorizedHeaderVerification);
 
 CourseRouter.post('/add', AddCourseBodyValidator, addCourseHandler).all('/add', MethodNotAllowedHandler);

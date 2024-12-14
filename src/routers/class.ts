@@ -8,7 +8,7 @@ const ClassRouter = express.Router();
 export default ClassRouter;
 
 ClassRouter.get('/', ActiveEndpointHandler).all('/', MethodNotAllowedHandler);
-ClassRouter.use(AuthorizedHeaderVerification);
+// ClassRouter.use(AuthorizedHeaderVerification);
 
 ClassRouter.get('/list/:id', listClassHandler).all('/list', MethodNotAllowedHandler);
 

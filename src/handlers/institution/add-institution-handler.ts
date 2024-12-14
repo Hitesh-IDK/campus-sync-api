@@ -9,10 +9,18 @@ import { GenericAPIBody, GenericAPIResponse } from '../../../types/global';
 
 export default catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { name, address, city, state, handler, image } = req.body as AddInstitutionReqBody;
-  const { name: handlerName, registration_id, phone, email } = handler;
+  const { name: handlerName, qualification, phone, email } = handler;
 
-  const hashedPassword = await hashPassword(registration_id);
-  const handlerUser = new User(registration_id, handlerName, phone, hashedPassword, 'institution_spoc', 'spoc', email);
+  const hashedPassword = await hashPassword(phone.toString());
+  const handlerUser = new User(
+    phone.toString(),
+    handlerName,
+    phone,
+    hashedPassword,
+    'institution_spoc',
+    qualification,
+    email
+  );
   const handlerId = await handlerUser.save();
 
   if (!handlerId) {
@@ -39,7 +47,7 @@ export default catchAsync(async (req: Request, res: Response, next: NextFunction
 
 export const AddInstitutionBodyValidator = (req: Request, res: Response, next: NextFunction) => {
   const { name, address, city, state, handler } = req.body as AddInstitutionReqBody;
-  const { name: handlerName, registration_id, phone, email } = handler;
+  const { name: handlerName, qualification, phone, email } = handler;
 
   const missing: string[] = [];
 
@@ -48,7 +56,7 @@ export const AddInstitutionBodyValidator = (req: Request, res: Response, next: N
   if (!city) missing.push('city');
   if (!state) missing.push('state');
   if (!handlerName) missing.push('handlerName');
-  if (!registration_id) missing.push('registration_id');
+  if (!qualification) missing.push('qualification');
   if (!phone) missing.push('phone');
   if (!email) missing.push('email');
 
@@ -63,7 +71,6 @@ export const AddInstitutionBodyValidator = (req: Request, res: Response, next: N
   const validateCity = Institution.validateCity(city);
   const validateState = Institution.validateState(state);
   const validateHandlerName = Institution.validateName(handlerName);
-  const validateRegistrationId = User.validateRegistrationId(registration_id);
   const validatePhone = User.validatePhone(phone);
   const vallidateEmail = User.validateEmail(email);
 
@@ -72,7 +79,6 @@ export const AddInstitutionBodyValidator = (req: Request, res: Response, next: N
   if (validateCity) errors.push(validateCity);
   if (validateState) errors.push(validateState);
   if (validateHandlerName) errors.push(validateHandlerName);
-  if (validateRegistrationId) errors.push(validateRegistrationId);
   if (validatePhone) errors.push(validatePhone);
   if (vallidateEmail) errors.push(vallidateEmail);
 
